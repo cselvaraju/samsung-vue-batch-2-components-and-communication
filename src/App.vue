@@ -1,26 +1,74 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <h1>Component Demo</h1>
+    <!-- <ActorsList :actors="actorsList" /> -->
+    <ActorsTable :actors="actorsList" @delete-actor="deletActor($event)" @save-actor="saveActor($event)" />
+    <AddActorComponent @add-actor="addActor($event)" />
+    <ParentComponent />
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import ActorsList from "./components/ActorsList.vue";
+import ActorsTable from "./components/ActorsTable.vue";
+import ParentComponent from "./components/ParentComponent.vue";
+import AddActorComponent from "./components/AddActorComponent.vue";
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
-  }
-}
+    // ActorsList,
+    ActorsTable,
+    ParentComponent,
+    AddActorComponent,
+  },
+
+  data() {
+    return {
+      actorsList: [
+        {
+          name: "Amitabh Bachhan",
+          city: "Mumbai",
+        },
+        {
+          name: "Ajeeth",
+          city: "Chennai",
+        },
+        {
+          name: "Aishwarya Rai",
+          city: "Mumbai",
+        },
+        {
+          name: "Deepika Padukone",
+          city: "New Delhi",
+        },
+        {
+          name: "Rajnikant",
+          city: "Chennai",
+        },
+      ],
+    };
+  },
+  methods: {
+    deletActor(event) {
+      this.actorsList.splice(event, 1);
+    },
+    addActor(event) {
+      console.log("Add actor in root component");
+      this.actorsList.push(event);
+    },
+    saveActor(event) {
+      // console.log('save actor');
+      // console.log(event);
+      // console.log(event.actor);
+      this.actorsList.splice(event.index, 1, event.actor);
+    }
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.container {
+  width: auto;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
